@@ -1,0 +1,86 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    field.cattle.io/creatorId: user-fvqkl
+    field.cattle.io/publicEndpoints: '[{"addresses":["18.206.81.12"],"port":443,"protocol":"HTTPS","serviceName":"default:ingress-812eb223c7982a55c34fb007d430f652","ingressName":"default:taurusmaze.co","hostname":"taurusmaze.co","path":"/soap","allNodes":true},{"addresses":["18.206.81.12"],"port":32616,"protocol":"TCP","serviceName":"default:taurus-soap-ms-nodeport","allNodes":true}]'
+  creationTimestamp: "2019-12-19T18:30:36Z"
+  generation: 3
+  labels:
+    cattle.io/creator: norman
+    workload.user.cattle.io/workloadselector: deployment-default-taurus-soap-ms
+  name: taurus-soap-ms
+  namespace: default
+  resourceVersion: "620023"
+  selfLink: /apis/apps/v1/namespaces/default/deployments/taurus-soap-ms
+  uid: dd3bba2b-84ef-4d7d-83c9-e034ffbb602c
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-default-taurus-soap-ms
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: "2019-12-19T18:30:36Z"
+        field.cattle.io/ports: '[[{"containerPort":8081,"dnsName":"taurus-soap-ms-nodeport","kind":"NodePort","name":"php","protocol":"TCP"}]]'
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-default-taurus-soap-ms
+    spec:
+      containers:
+      - env:
+        - name: CONSUME_SERVER_URL
+          value: http://54.39.98.125:4009
+        - name: TAURUS_SERVER_URL
+          value: https://taurusmaze.co
+        image: taurusgame/expose-auth-ms
+        imagePullPolicy: Always
+        name: taurus-soap-ms
+        ports:
+        - containerPort: 8081
+          name: php
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-12-19T18:30:46Z"
+    lastUpdateTime: "2019-12-19T18:30:46Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2019-12-19T18:30:36Z"
+    lastUpdateTime: "2019-12-19T18:30:46Z"
+    message: ReplicaSet "taurus-soap-ms-df965758c" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 3
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

@@ -1,0 +1,80 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "26"
+    field.cattle.io/creatorId: user-fvqkl
+  creationTimestamp: "2019-12-19T21:49:23Z"
+  generation: 26
+  labels:
+    cattle.io/creator: norman
+    workload.user.cattle.io/workloadselector: deployment-default-taurus-game-server-db-0
+  name: taurus-game-server-db-0
+  namespace: default
+  resourceVersion: "710023"
+  selfLink: /apis/apps/v1/namespaces/default/deployments/taurus-game-server-db-0
+  uid: cbaed950-b697-4ab2-a1ad-04926a3068a2
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-default-taurus-game-server-db-0
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: "2019-12-20T03:02:03Z"
+        field.cattle.io/ports: '[[{"containerPort":27017,"dnsName":"taurus-game-server-db-0","kind":"ClusterIP","name":"mongo","protocol":"TCP"}]]'
+        workload.cattle.io/state: '{"dGF1cnVzLXJhbmNoZXJhZ2VudC0wLWFsbA==":"c-dpxlj:m-d403bc48cacb"}'
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-default-taurus-game-server-db-0
+    spec:
+      containers:
+      - image: taurusgame/data-store-db
+        imagePullPolicy: Always
+        name: taurus-game-server-db-0
+        ports:
+        - containerPort: 27017
+          name: mongo
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-12-19T21:49:25Z"
+    lastUpdateTime: "2019-12-19T21:49:25Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2019-12-19T21:49:23Z"
+    lastUpdateTime: "2019-12-20T03:02:05Z"
+    message: ReplicaSet "taurus-game-server-db-0-7478b67d98" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 26
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

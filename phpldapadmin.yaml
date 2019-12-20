@@ -1,0 +1,86 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "3"
+    field.cattle.io/creatorId: user-fvqkl
+    field.cattle.io/publicEndpoints: '[{"addresses":["18.206.81.12"],"port":32051,"protocol":"TCP","serviceName":"default:phpldapadmin-nodeport","allNodes":true}]'
+  creationTimestamp: "2019-12-17T01:48:33Z"
+  generation: 5
+  labels:
+    cattle.io/creator: norman
+    workload.user.cattle.io/workloadselector: deployment-default-phpldapadmin
+  name: phpldapadmin
+  namespace: default
+  resourceVersion: "11860"
+  selfLink: /apis/apps/v1/namespaces/default/deployments/phpldapadmin
+  uid: bc08df3f-e1fe-48f5-a169-faf4da027509
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-default-phpldapadmin
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: "2019-12-17T01:51:53Z"
+        field.cattle.io/ports: '[[{"containerPort":80,"dnsName":"phpldapadmin-nodeport","kind":"NodePort","name":"8085tcp1","protocol":"TCP"}]]'
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-default-phpldapadmin
+    spec:
+      containers:
+      - env:
+        - name: PHPLDAPADMIN_HTTPS
+          value: "false"
+        - name: PHPLDAPADMIN_LDAP_HOSTS
+          value: taurus-ldap
+        image: osixia/phpldapadmin:latest
+        imagePullPolicy: Always
+        name: phpldapadmin
+        ports:
+        - containerPort: 80
+          name: 8085tcp1
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-12-17T01:48:40Z"
+    lastUpdateTime: "2019-12-17T01:48:40Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2019-12-17T01:48:33Z"
+    lastUpdateTime: "2019-12-17T01:49:54Z"
+    message: ReplicaSet "phpldapadmin-85c57bb6c4" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 5
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
